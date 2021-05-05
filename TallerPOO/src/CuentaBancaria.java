@@ -66,7 +66,7 @@ public class CuentaBancaria {
 
     //Retiro de cuenta corriente
     public boolean retiroCuentaCorriente(double dinero) {
-        if (saldoCuentaCorriente > dinero) {
+        if (saldoCuentaCorriente >= dinero) {
             saldoCuentaCorriente -= dinero;
             return true;
         } else {
@@ -76,7 +76,7 @@ public class CuentaBancaria {
 
     //Retiro de cuenta de ahorros
     public boolean retiroCuentaAhorros(double dinero) {
-        if (saldoCuentaAhorros > dinero) {
+        if (saldoCuentaAhorros >= dinero) {
             saldoCuentaAhorros -= dinero;
             return true;//retiro exitoso
         } else {
@@ -118,4 +118,8 @@ public class CuentaBancaria {
     public String getSaldoCorriente() {
         return String.valueOf(saldoCuentaCorriente);
     } 
+    
+    public String getCDT(){
+        return String.valueOf(saldoCDT);
+    }
 }

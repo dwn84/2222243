@@ -166,6 +166,11 @@ public class frmCuentabancaria extends javax.swing.JFrame {
         txtSaldoCorriente.setText("0");
 
         btnRetirarC.setText("Retirar");
+        btnRetirarC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRetirarCActionPerformed(evt);
+            }
+        });
 
         btnConsignarC.setText("Consignar");
         btnConsignarC.addActionListener(new java.awt.event.ActionListener() {
@@ -209,8 +214,19 @@ public class frmCuentabancaria extends javax.swing.JFrame {
         txtSaldoCDT.setText("0");
 
         btnCerrarCDT.setText("Cerrar");
+        btnCerrarCDT.setEnabled(false);
+        btnCerrarCDT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarCDTActionPerformed(evt);
+            }
+        });
 
         btnAbrirCDT.setText("Abrir");
+        btnAbrirCDT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAbrirCDTActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -223,7 +239,7 @@ public class frmCuentabancaria extends javax.swing.JFrame {
                 .addComponent(txtSaldoCDT, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnAbrirCDT)
-                .addGap(35, 35, 35)
+                .addGap(32, 32, 32)
                 .addComponent(btnCerrarCDT)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -231,12 +247,15 @@ public class frmCuentabancaria extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtSaldoCDT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAbrirCDT)
-                    .addComponent(btnCerrarCDT))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAbrirCDT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(txtSaldoCDT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCerrarCDT))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         jLabel7.setText("Mes:");
@@ -245,6 +264,11 @@ public class frmCuentabancaria extends javax.swing.JFrame {
         txtMes.setText("1");
 
         btnAvanzarMes.setText("Avanzar mes");
+        btnAvanzarMes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAvanzarMesActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("Total");
 
@@ -356,6 +380,56 @@ public class frmCuentabancaria extends javax.swing.JFrame {
         txtTotal.setText(String.valueOf(banpolombia.mostrarSaldoTotal()));
         txtSaldoAhorros.setText(String.valueOf(banpolombia.getSaldoAhorros()));
     }//GEN-LAST:event_btnRetirarAActionPerformed
+
+    private void btnRetirarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetirarCActionPerformed
+        // TODO add your handling code here:
+    String dinero = JOptionPane.showInputDialog("Ingrese la cantidad de dinero que va a retirar en la cuenta corriente");
+        double dinerito = Double.parseDouble(dinero);
+        boolean resultado = banpolombia.retiroCuentaCorriente(dinerito);
+        if(resultado == true){
+            JOptionPane.showMessageDialog(this, "Retiro exitoso");
+        }else{
+            JOptionPane.showMessageDialog(this, "No cuenta con saldo para el retiro de dinero");
+        }
+        txtTotal.setText(String.valueOf(banpolombia.mostrarSaldoTotal()));
+        txtSaldoCorriente.setText(banpolombia.getSaldoCorriente());    
+    }//GEN-LAST:event_btnRetirarCActionPerformed
+
+    private void btnAbrirCDTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirCDTActionPerformed
+        // TODO add your handling code here:
+        String dinero = JOptionPane.showInputDialog("Ingrese la cantidad de dinero para abrir el CDT");
+        double dinerito = Double.parseDouble(dinero);
+        banpolombia.abrirSaldoCDT(dinerito);
+        btnAbrirCDT.setEnabled(false);
+        txtSaldoCDT.setText(banpolombia.getCDT());
+        txtTotal.setText(String.valueOf(banpolombia.mostrarSaldoTotal()));
+        btnCerrarCDT.setEnabled(true);
+        
+    }//GEN-LAST:event_btnAbrirCDTActionPerformed
+
+    private void btnCerrarCDTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarCDTActionPerformed
+        // TODO add your handling code here:
+        banpolombia.cerrarCDT();
+        txtSaldoCDT.setText(banpolombia.getCDT());
+        txtTotal.setText(String.valueOf(banpolombia.mostrarSaldoTotal()));
+        txtSaldoCorriente.setText(banpolombia.getSaldoCorriente());    
+        btnCerrarCDT.setEnabled(false);
+    }//GEN-LAST:event_btnCerrarCDTActionPerformed
+
+    private void btnAvanzarMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvanzarMesActionPerformed
+        // TODO add your handling code here:
+        if(mes>=12){
+            btnAvanzarMes.setEnabled(false);
+        }else{
+            mes++;
+            banpolombia.avanzarMes();
+            txtSaldoCDT.setText(banpolombia.getCDT());
+            txtTotal.setText(String.valueOf(banpolombia.mostrarSaldoTotal()));
+            txtSaldoCorriente.setText(banpolombia.getSaldoCorriente());    
+            txtSaldoAhorros.setText(String.valueOf(banpolombia.getSaldoAhorros()));
+            txtMes.setText(String.valueOf(mes));
+        }
+    }//GEN-LAST:event_btnAvanzarMesActionPerformed
 
     /**
      * @param args the command line arguments

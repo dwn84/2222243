@@ -318,6 +318,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Retirar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRetirarCActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnConsignarC">
               <Properties>
@@ -348,7 +351,7 @@
                       <Component id="txtSaldoCDT" min="-2" pref="71" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnAbrirCDT" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                       <Component id="btnCerrarCDT" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -358,13 +361,18 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtSaldoCDT" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnAbrirCDT" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnCerrarCDT" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btnAbrirCDT" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtSaldoCDT" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnCerrarCDT" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -384,12 +392,19 @@
             <Component class="javax.swing.JButton" name="btnCerrarCDT">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cerrar"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCerrarCDTActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnAbrirCDT">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Abrir"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAbrirCDTActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -408,6 +423,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Avanzar mes"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAvanzarMesActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel9">
           <Properties>
