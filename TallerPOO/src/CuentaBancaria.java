@@ -26,16 +26,23 @@ public class CuentaBancaria {
         saldoCuentaCorriente = 0;
         saldoCDT = 0;
         CDT = false;
+
     }
 
     //segundo método constructor
     public CuentaBancaria(String nom, String ced) {
+        this();
         nombre = nom;
         cedula = ced;
-        saldoCuentaAhorros = 0;
-        saldoCuentaCorriente = 0;
-        saldoCDT = 0;
-        CDT = false;
+
+    }
+
+    public CuentaBancaria(String nombre, String cedula, double saldoCuentaAhorros, double saldoCuentaCorriente, double saldoCDT) {
+        this.nombre = nombre;
+        this.cedula = cedula;
+        this.saldoCuentaAhorros = saldoCuentaAhorros;
+        this.saldoCuentaCorriente = saldoCuentaCorriente;
+        this.saldoCDT = saldoCDT;
     }
 
     //Métodos generales
@@ -108,18 +115,18 @@ public class CuentaBancaria {
 
     public String getCedula() {
         return cedula;
-    }    
-    
-    public double getSaldoAhorros() {        
+    }
+
+    public double getSaldoAhorros() {
         return saldoCuentaAhorros;
-        
-    }    
+
+    }
 
     public String getSaldoCorriente() {
         return String.valueOf(saldoCuentaCorriente);
-    } 
-    
-    public String getCDT(){
+    }
+
+    public String getCDT() {
         return String.valueOf(saldoCDT);
     }
 }

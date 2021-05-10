@@ -2,24 +2,27 @@
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-
-
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author niwde
  */
 public class frmAdminClientes extends javax.swing.JFrame {
+
     //nuevos atributos del formulario
     Connection miConexion;
     Statement consultaSQL;
@@ -27,16 +30,55 @@ public class frmAdminClientes extends javax.swing.JFrame {
     String url = "jdbc:mysql://localhost/sistemaBancario";
     String user = "root";
     String password = "";
-    
+
     /**
      * Creates new form frmAdminClientes
      */
     public frmAdminClientes() {
         initComponents();
+
         try {//intentar ejecutar una orden
             //Instanciar conexion a la base de datos
-            miConexion = (Connection) DriverManager.getConnection(url,user,password);
+            miConexion = (Connection) DriverManager.getConnection(url, user, password);
             System.out.println("Conexión realizada con exito!!!! Estamos dentro de la base de datos!!!!");
+
+            ArrayList<CuentaBancaria> listadoDeBaseDeDatos = new ArrayList<>();
+            String sql = "Select * from cuentaBancaria";
+
+            consultaSQL = (Statement) miConexion.createStatement();
+            ResultSet daticos = consultaSQL.executeQuery(sql);
+            //recorrer fila por fila, hasta que no existan mas datos
+            while (daticos.next()) {
+                CuentaBancaria filadeDatos;
+                filadeDatos = new CuentaBancaria(
+                        daticos.getString("nombre"),
+                        daticos.getString("cedula"),
+                        daticos.getDouble("SaldoCuentaAhorros"),
+                        daticos.getDouble("SaldoCuentaCorriente"),
+                        daticos.getDouble("SaldoCDT")
+                );
+                listadoDeBaseDeDatos.add(filadeDatos);
+            }
+
+            //trasladar la información del objeto interno: listadoDeBaseDeDatos
+            // al objeto gráfico: tabla - tblDatos
+            //guardar en arreglo con número de columnas
+            //igual a las columnas de la tabla de BD.
+            Object[] temporal = new Object[5];
+
+            //tomar control de la tabla en la interfaz gráfica
+            DefaultTableModel modeloTabla = (DefaultTableModel) tblDatos.getModel();
+            
+            //recorrer la lista de datos
+            for (int i = 0; i < listadoDeBaseDeDatos.size(); i++) {
+                temporal[0] = listadoDeBaseDeDatos.get(i).getCedula();
+                temporal[1] = listadoDeBaseDeDatos.get(i).getNombre();
+                temporal[2]= listadoDeBaseDeDatos.get(i).getSaldoAhorros();
+                temporal[3]= listadoDeBaseDeDatos.get(i).getSaldoCorriente();
+                temporal[4]= listadoDeBaseDeDatos.get(i).getCDT();
+                modeloTabla.addRow(temporal);
+            }
+
         } catch (SQLException ex) {//Mostar un mensaje si no se puede realizar
             //la orden dentro del try
             System.out.println("Error de conexión a la base de datos");
@@ -61,24 +103,36 @@ public class frmAdminClientes extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblDatos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel1.setText("Cedula");
 
         jLabel2.setText("Nombre");
 
+        txtNombre.setEnabled(false);
+
+        txtCedula.setEnabled(false);
+
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel3.setText("Gestión de clientes BancoX");
 
         btnCrear.setText("Crear cliente");
+        btnCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar cliente");
+        btnEliminar.setEnabled(false);
 
         btnActualizar.setText("Actualizar cliente");
+        btnActualizar.setEnabled(false);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -94,7 +148,7 @@ public class frmAdminClientes extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblDatos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -107,7 +161,7 @@ public class frmAdminClientes extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
-                        .addGap(23, 23, 23)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -121,36 +175,80 @@ public class frmAdminClientes extends javax.swing.JFrame {
                         .addComponent(btnEliminar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnActualizar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnCrear)
-                            .addComponent(btnEliminar)
-                            .addComponent(btnActualizar))))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCrear)
+                    .addComponent(btnEliminar)
+                    .addComponent(btnActualizar))
+                .addContainerGap(55, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
+        // TODO add your handling code here:
+        //Habilitar los cuadros de texto
+        txtCedula.setEnabled(true);
+        txtNombre.setEnabled(true);
+
+        if (txtCedula.getText().isEmpty() || txtNombre.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Falta diligenciar datos");
+        } else {
+            try {
+                //instanciar el objeto
+                //para ejecutar
+                //las consultas
+                consultaSQL = (Statement) miConexion.createStatement();
+                //crear un objeto de la cuentaBancaria
+                CuentaBancaria banpolombia = new CuentaBancaria(txtNombre.getText(), txtCedula.getText());
+                //Guardar el texto de la consulta en un String
+                String sql = "INSERT INTO cuentabancaria VALUES ('"
+                        + banpolombia.getNombre() + "','"
+                        + banpolombia.getCedula() + "',"
+                        + banpolombia.getSaldoAhorros() + ","
+                        + banpolombia.getSaldoCorriente() + ","
+                        + banpolombia.getCDT() + ");";
+                System.out.println(sql);
+
+                //ejecutar la consulta                
+                consultaSQL.executeUpdate(sql);
+                //mostrar un mensaje confirmando que se ha guardado la info
+                JOptionPane.showMessageDialog(this, "Dato guardado corretamente");
+                txtCedula.setText("");
+                txtNombre.setText("");
+                txtCedula.setEnabled(false);
+                txtNombre.setEnabled(false);
+                btnActualizar.setEnabled(false);
+                btnEliminar.setEnabled(false);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error interno, consulta al administrador");
+            }
+        }
+
+
+    }//GEN-LAST:event_btnCrearActionPerformed
 
     /**
      * @param args the command line arguments
@@ -195,7 +293,7 @@ public class frmAdminClientes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblDatos;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
