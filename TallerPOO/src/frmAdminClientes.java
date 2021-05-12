@@ -68,14 +68,14 @@ public class frmAdminClientes extends javax.swing.JFrame {
 
             //tomar control de la tabla en la interfaz gráfica
             DefaultTableModel modeloTabla = (DefaultTableModel) tblDatos.getModel();
-            
+
             //recorrer la lista de datos
             for (int i = 0; i < listadoDeBaseDeDatos.size(); i++) {
                 temporal[0] = listadoDeBaseDeDatos.get(i).getCedula();
                 temporal[1] = listadoDeBaseDeDatos.get(i).getNombre();
-                temporal[2]= listadoDeBaseDeDatos.get(i).getSaldoAhorros();
-                temporal[3]= listadoDeBaseDeDatos.get(i).getSaldoCorriente();
-                temporal[4]= listadoDeBaseDeDatos.get(i).getCDT();
+                temporal[2] = listadoDeBaseDeDatos.get(i).getSaldoAhorros();
+                temporal[3] = listadoDeBaseDeDatos.get(i).getSaldoCorriente();
+                temporal[4] = listadoDeBaseDeDatos.get(i).getCDT();
                 modeloTabla.addRow(temporal);
             }
 
@@ -128,6 +128,11 @@ public class frmAdminClientes extends javax.swing.JFrame {
 
         btnEliminar.setText("Eliminar cliente");
         btnEliminar.setEnabled(false);
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnActualizar.setText("Actualizar cliente");
         btnActualizar.setEnabled(false);
@@ -146,6 +151,11 @@ public class frmAdminClientes extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblDatos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDatosMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblDatos);
@@ -175,9 +185,9 @@ public class frmAdminClientes extends javax.swing.JFrame {
                         .addComponent(btnEliminar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnActualizar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,9 +207,9 @@ public class frmAdminClientes extends javax.swing.JFrame {
                     .addComponent(btnCrear)
                     .addComponent(btnEliminar)
                     .addComponent(btnActualizar))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(14, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -249,6 +259,50 @@ public class frmAdminClientes extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_btnCrearActionPerformed
+
+    private void tblDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDatosMouseClicked
+        // TODO add your handling code here:
+        int i = tblDatos.getSelectedRow();
+        //ver la fila seleccionada por el usuario
+        //JOptionPane.showMessageDialog(this, i);
+        DefaultTableModel datos = (DefaultTableModel) tblDatos.getModel();
+        //llevar la información de la tabla a los cuadros de texto
+        txtCedula.setText((String) datos.getValueAt(i, 0));
+        txtNombre.setText(datos.getValueAt(i, 1).toString());
+        //Habilitar botones
+        btnActualizar.setEnabled(true);
+        btnEliminar.setEnabled(true);
+        //deshabilitar el botón crear
+        btnCrear.setEnabled(false);
+        //Habilitar los cuadros de texto
+        txtCedula.setEnabled(true);
+        txtNombre.setEnabled(true);
+
+    }//GEN-LAST:event_tblDatosMouseClicked
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+
+        String sql = "delete from cuentaBancaria where cedula = '"
+                + txtCedula.getText()
+                + "'";
+        System.out.println(sql);
+
+        try {
+            // TODO add your handling code here:
+            consultaSQL = (Statement) miConexion.createStatement();
+            consultaSQL.executeUpdate(sql);
+            JOptionPane.showMessageDialog(this, "Cliente borrado correctamente");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error interno, contacte al administrador");
+        }
+        
+        txtCedula.setText("");
+        txtNombre.setText("");        
+        btnActualizar.setEnabled(false);
+        btnEliminar.setEnabled(false);        
+        btnCrear.setEnabled(true);
+        
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
