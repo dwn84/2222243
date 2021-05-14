@@ -23,6 +23,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class frmAdminClientes extends javax.swing.JFrame {
 
+    //nuevo atributo para conservar las cedulas que se van a actualizar
+    String cedula;
+    
     //nuevos atributos del formulario
     Connection miConexion;
     Statement consultaSQL;
@@ -36,7 +39,10 @@ public class frmAdminClientes extends javax.swing.JFrame {
      */
     public frmAdminClientes() {
         initComponents();
+        actualizarTabla();
+    }
 
+    public void actualizarTabla() {
         try {//intentar ejecutar una orden
             //Instanciar conexion a la base de datos
             miConexion = (Connection) DriverManager.getConnection(url, user, password);
@@ -68,7 +74,7 @@ public class frmAdminClientes extends javax.swing.JFrame {
 
             //tomar control de la tabla en la interfaz gráfica
             DefaultTableModel modeloTabla = (DefaultTableModel) tblDatos.getModel();
-
+            modeloTabla.setRowCount(0);
             //recorrer la lista de datos
             for (int i = 0; i < listadoDeBaseDeDatos.size(); i++) {
                 temporal[0] = listadoDeBaseDeDatos.get(i).getCedula();
@@ -83,6 +89,7 @@ public class frmAdminClientes extends javax.swing.JFrame {
             //la orden dentro del try
             System.out.println("Error de conexión a la base de datos");
         }
+
     }
 
     /**
@@ -136,6 +143,11 @@ public class frmAdminClientes extends javax.swing.JFrame {
 
         btnActualizar.setText("Actualizar cliente");
         btnActualizar.setEnabled(false);
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         tblDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -185,9 +197,9 @@ public class frmAdminClientes extends javax.swing.JFrame {
                         .addComponent(btnEliminar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnActualizar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,9 +221,8 @@ public class frmAdminClientes extends javax.swing.JFrame {
                     .addComponent(btnActualizar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(0, 25, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -240,18 +251,14 @@ public class frmAdminClientes extends javax.swing.JFrame {
                         + banpolombia.getSaldoAhorros() + ","
                         + banpolombia.getSaldoCorriente() + ","
                         + banpolombia.getCDT() + ");";
-                System.out.println(sql);
+                //System.out.println(sql);
 
                 //ejecutar la consulta                
                 consultaSQL.executeUpdate(sql);
                 //mostrar un mensaje confirmando que se ha guardado la info
                 JOptionPane.showMessageDialog(this, "Dato guardado corretamente");
-                txtCedula.setText("");
-                txtNombre.setText("");
-                txtCedula.setEnabled(false);
-                txtNombre.setEnabled(false);
-                btnActualizar.setEnabled(false);
-                btnEliminar.setEnabled(false);
+                limpiarDatos();                
+                actualizarTabla();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Error interno, consulta al administrador");
             }
@@ -268,6 +275,8 @@ public class frmAdminClientes extends javax.swing.JFrame {
         DefaultTableModel datos = (DefaultTableModel) tblDatos.getModel();
         //llevar la información de la tabla a los cuadros de texto
         txtCedula.setText((String) datos.getValueAt(i, 0));
+        //guardar la cedula en el atributo de la clase
+        cedula = (String) datos.getValueAt(i, 0);
         txtNombre.setText(datos.getValueAt(i, 1).toString());
         //Habilitar botones
         btnActualizar.setEnabled(true);
@@ -281,28 +290,71 @@ public class frmAdminClientes extends javax.swing.JFrame {
     }//GEN-LAST:event_tblDatosMouseClicked
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int resp = JOptionPane.showConfirmDialog(this, "¿Esta seguro que desea borrar el dato?");
 
-        String sql = "delete from cuentaBancaria where cedula = '"
-                + txtCedula.getText()
-                + "'";
-        System.out.println(sql);
+        if (resp == 0) {
 
-        try {
-            // TODO add your handling code here:
-            consultaSQL = (Statement) miConexion.createStatement();
-            consultaSQL.executeUpdate(sql);
-            JOptionPane.showMessageDialog(this, "Cliente borrado correctamente");
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error interno, contacte al administrador");
+            String sql = "delete from cuentaBancaria where cedula = '"
+                    + txtCedula.getText()
+                    + "'";
+            System.out.println(sql);
+
+            try {
+                // TODO add your handling code here:
+                consultaSQL = (Statement) miConexion.createStatement();
+                consultaSQL.executeUpdate(sql);
+                JOptionPane.showMessageDialog(this, "Cliente borrado correctamente");
+                actualizarTabla();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Error interno, contacte al administrador");
+            }
+            limpiarDatos();
+        } else if (resp == 2) {
+            limpiarDatos();
+        }
+
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // TODO add your handling code here:
+        int resp = JOptionPane.showConfirmDialog(this, "¿Esta seguro que desea actualizar el dato?");
+
+        if (resp == 0) {
+
+            String sql = "update cuentaBancaria set cedula='"
+                    + txtCedula.getText() 
+                        + "',nombre ='"
+                    + txtNombre.getText()
+                    + "' where cedula = '"
+                    + cedula
+                    + "'";
+            //System.out.println(sql);
+
+            try {
+                // TODO add your handling code here:
+                consultaSQL = (Statement) miConexion.createStatement();
+                consultaSQL.executeUpdate(sql);
+                JOptionPane.showMessageDialog(this, "Cliente borrado correctamente");
+                actualizarTabla();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Error interno, contacte al administrador");
+            }
+            limpiarDatos();
+        } else if (resp == 2) {
+            limpiarDatos();
         }
         
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    public void limpiarDatos() {//Borron y cuenta nueva
         txtCedula.setText("");
-        txtNombre.setText("");        
+        txtNombre.setText("");
+        txtCedula.setEnabled(false);
+        txtNombre.setEnabled(false);
         btnActualizar.setEnabled(false);
-        btnEliminar.setEnabled(false);        
+        btnEliminar.setEnabled(false);
         btnCrear.setEnabled(true);
-        
-    }//GEN-LAST:event_btnEliminarActionPerformed
+    }
 
     /**
      * @param args the command line arguments
