@@ -29,13 +29,14 @@
         Página de prueba
     </h1>
 
-    <table>
+    <table border="1">
+        <caption>Datos de mis contactos</caption>
         <tr>
-            <td>Cédula</td>
-            <td>Nombre</td>
-            <td>Apellido</td>
-            <td>Teléfono</td>
-            <td>Dirección de domicilio</td>
+            <th>Cédula</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Teléfono</th>
+            <th>Dirección de domicilio</th>
         </tr>
 
         <!-- Consulta select * from -->
@@ -44,22 +45,20 @@
             <td>71555555</td>
             <td>Esperanza</td>
             <td>Gomez</td>
-            <td>301555444</td>
+            <td rowspan="2">301555444</td>
             <td>Cra 55 #55-55</td>
         </tr>
         <tr>
             <td>71555555</td>
             <td>Esperanza</td>
             <td>Gomez</td>
-            <td>301555444</td>
             <td>Cra 55 #55-55</td>
         </tr>
         <tr>
-            <td>71555555</td>
-            <td>Esperanza</td>
-            <td>Gomez</td>
-            <td>301555444</td>
-            <td>Cra 55 #55-55</td>
+            <td>xxxxx</td>
+            <td>yyyyy</td>
+            <td colspan="3">Mi agenda</td>
+            
         </tr>
 
     </table>
