@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +26,7 @@ public class frmAdminClientes extends javax.swing.JFrame {
 
     //nuevo atributo para conservar las cedulas que se van a actualizar
     String cedula;
-    
+
     //nuevos atributos del formulario
     Connection miConexion;
     Statement consultaSQL;
@@ -39,7 +40,7 @@ public class frmAdminClientes extends javax.swing.JFrame {
      */
     public frmAdminClientes() {
         initComponents();
-        actualizarTabla();
+        actualizarTabla();        
     }
 
     public void actualizarTabla() {
@@ -257,7 +258,7 @@ public class frmAdminClientes extends javax.swing.JFrame {
                 consultaSQL.executeUpdate(sql);
                 //mostrar un mensaje confirmando que se ha guardado la info
                 JOptionPane.showMessageDialog(this, "Dato guardado corretamente");
-                limpiarDatos();                
+                limpiarDatos();
                 actualizarTabla();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Error interno, consulta al administrador");
@@ -322,8 +323,8 @@ public class frmAdminClientes extends javax.swing.JFrame {
         if (resp == 0) {
 
             String sql = "update cuentaBancaria set cedula='"
-                    + txtCedula.getText() 
-                        + "',nombre ='"
+                    + txtCedula.getText()
+                    + "',nombre ='"
                     + txtNombre.getText()
                     + "' where cedula = '"
                     + cedula
@@ -334,7 +335,7 @@ public class frmAdminClientes extends javax.swing.JFrame {
                 // TODO add your handling code here:
                 consultaSQL = (Statement) miConexion.createStatement();
                 consultaSQL.executeUpdate(sql);
-                JOptionPane.showMessageDialog(this, "Cliente borrado correctamente");
+                JOptionPane.showMessageDialog(this, "Cliente actualizado correctamente");
                 actualizarTabla();
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Error interno, contacte al administrador");
@@ -343,7 +344,7 @@ public class frmAdminClientes extends javax.swing.JFrame {
         } else if (resp == 2) {
             limpiarDatos();
         }
-        
+
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     public void limpiarDatos() {//Borron y cuenta nueva
