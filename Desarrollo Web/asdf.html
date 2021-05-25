@@ -10,6 +10,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Reggae+One&display=swap" rel="stylesheet"> 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Goblin+One&family=Reggae+One&display=swap" rel="stylesheet"> 
+    <!-- Referenciar un archivo CSS externo -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Configuración global con CSS -->
+    <style>
+        p{
+            color:red;
+            background-color: yellow;
+        }
+
+        h2 p{
+            color:green;
+            background-color: pink;
+        }
+
+    </style>
+    
     <!--
         Comentario de HTML
     -->
@@ -17,7 +33,13 @@
 </head>
 <body>
 
+    <h2>
+        <p>Configuracion de color</p>
+    </h2>
+
+
     <!-- Enlace para volver a la página de introducción -->
+
 
     <a href="introduccion.html" target="_blank">Volver</a>
 
@@ -29,7 +51,7 @@
         Página de prueba
     </h1>
 
-    <table border="1">
+    <table class="config">
         <caption>Datos de mis contactos</caption>
         <tr>
             <th>Cédula</th>
@@ -42,16 +64,16 @@
         <!-- Consulta select * from -->
 
         <tr>
-            <td>71555555</td>
-            <td>Esperanza</td>
+            <td class="config">71555555</td>
+            <td id="seccion1">Esperanza</td>
             <td>Gomez</td>
             <!-- Fila que abarca dos renglones -->
             <td rowspan="2">301555444</td>
-            <td>Cra 55 #55-55</td>
+            <td class="config">Cra 55 #55-55</td>
         </tr>
         <tr>
-            <td>71555555</td>
-            <td>Esperanza</td>
+            <td id="seccion2">71555555</td>
+            <td id="seccion3">Esperanza</td>
             <td>Gomez</td>
             <td>Cra 55 #55-55</td>
         </tr>
@@ -64,7 +86,7 @@
         </tr>
 
     </table>
-
+    <!-- Configuración de fuente con CSS -->
     <p style="font-family: 'Goblin One', cursive;">
        
         Lorem <strong>Yo soy strong</strong> ipsum <em>dolor sit amet</em>  consectetur adipisicing elit. Voluptate nulla quos laboriosam eaque vitae, odit, dolorem fuga commodi impedit voluptatem, ex recusandae sunt. Odit consectetur obcaecati nesciunt dignissimos modi quam.

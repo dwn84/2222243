@@ -1,0 +1,39 @@
+body{
+    background-color: indigo;
+    background-image: url('gaturro.jpg');
+    background-position: 22% 75%;
+    background-repeat: no-repeat;
+    background-size: 50% 50%;
+}
+
+/*Creación de una clase de CSS*/
+.config{
+    text-align: center;
+    font-style: italic;
+    color:brown;
+    border-style: double;
+    border-color: yellow;
+    border-width: 5px;
+}
+/*Creación de reglas CSS en un id*/
+#seccion1{ 
+    font-style: italic;
+    color:blue;
+    border-style: dashed;
+    border-color: red;
+    border-width: 5px;
+}
+#seccion2{ 
+    font-style: italic;
+    color:blue;
+    border-style: dashed;
+    border-color: tomato;
+    border-width: 5px;
+}
+#seccion3{ 
+    font-style: italic;
+    color:blue;
+    border-style: dashed;
+    border-color: fuchsia;
+    border-width: 5px;
+}
