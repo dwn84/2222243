@@ -1,0 +1,14 @@
+.margenes{
+    margin-top: 10px;
+    margin-bottom: 22px;
+}
+
+.relleno{
+    background-color: gray;
+}
+
+p{
+    font-size: 23px;    
+    color:red;
+    font-style: italic;
+}
