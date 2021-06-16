@@ -1,6 +1,6 @@
 <?php
 	$servidor = "localhost";
 	$usuario = "root";
-	$contra = "123456";
+	$contra = "";
 	$baseDatos = "phpmysql";
 ?>
