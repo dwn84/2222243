@@ -45,7 +45,7 @@
 				<td>$fila[telefono]</td>
 			</tr>
 		</table>	
-			<button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#exampleModal'>Eliminar</button>
+			<button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#VentanaEliminar'>Eliminar</button>
 			<button type='button' class='btn btn-info'>Actualizar</button>
 		
 			"
@@ -64,12 +64,8 @@
 
 
 
-
-<!-- Button trigger modal -->
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal de eliminar-->
+<div class="modal fade" id="VentanaEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -89,4 +85,6 @@
     </div>
   </div>
 </div>
+
+<!-- Modal de actualizar...-->
     
