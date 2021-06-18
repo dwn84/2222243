@@ -23,13 +23,7 @@
 				</li>
 				<li class="nav-item">
 				  <a class="nav-link" href="mostrarLista.php">Mostrar lista</a>
-				</li>
-				<li class="nav-item">
-				  <a class="nav-link" href="#">Eliminar estudiante</a>
-				</li>
-				<li class="nav-item">
-				  <a class="nav-link" href="#">Actualizar estudiante</a>
-				</li>
+				</li>				
 			  </ul>
 			  <form action="buscarCedula.php" method="Post" class="d-flex">
 				<input class="form-control me-2" name="txtCedula" type="search" placeholder="Buscar por cédula" aria-label="Buscar">
