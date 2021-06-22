@@ -46,7 +46,7 @@
 			</tr>
 		</table>	
 			<button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#VentanaEliminar'>Eliminar</button>
-			<button type='button' class='btn btn-info' data-bs-toggle='modal' data-bs-target='#VentanaEditar'>Actualizar</button>
+			<button type='button' class='btn btn-info'>Actualizar</button>
 		
 			"
 			;			
@@ -87,42 +87,4 @@
 </div>
 
 <!-- Modal de actualizar...-->
-<div class="modal fade" id="VentanaEditar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Editar estudiante</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-	  <form action="actualizarEstudiante.php" method="post">
-	  <div class="mb-3">
-              <label for="txtcedulaNueva" class="form-label">Cedula</label>			  
-              <input type="text" name="txtcedulaNueva" value ="<?="$fila[cedula]"?>" class="form-control" id="txtcedula" required>
-            </div>
-            <div class="mb-3">
-                <label for="txtnombre" class="form-label">Nombre</label>
-                <input type="text" name="txtnombre" value ="<?="$fila[nombre]"?>" class="form-control" id="txtnombre" required>
-              </div>
-              <div class="mb-3">
-                <label for="txtapellido" class="form-label">Apellido</label>
-                <input type="text" name="txtapellido" value ="<?="$fila[apellido]"?>" class="form-control" id="txtapellido" required>
-              </div>
-              <div class="mb-3">
-                <label for="txtfecha" class="form-label">Fecha de nacimiento</label>
-                <input type="text" name="txtfecha" value ="<?="$fila[fechaNac]"?>" class="form-control" id="txtfecha" required>
-              </div>
-              <div class="mb-3">
-                <label for="txttelefono" class="form-label">Teléfono</label>
-                <input type="text" name="txttelefono" value ="<?="$fila[telefono]"?>" class="form-control" id="txttelefono" required>
-              </div>
-      </div>
-      <div class="modal-footer">
-        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-			<input type ="hidden" name="txtCedulaAnterior" value =<?="$_REQUEST[txtCedula]"?>>
-			<button type="submit" class="btn btn-primary">Actualizar</button>
-		</form>
-      </div>
-    </div>
-  </div>
-</div>
+    

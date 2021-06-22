@@ -10,17 +10,7 @@
 </head>
 <body>
 	<div class="container">
-
-	<?php
-		if(isset($_COOKIE["color"])){
-			$colorcito = $_COOKIE["color"];
-		}else{
-			$colorcito = "light";
-		}
-
-
-	?>
-		<nav class="navbar navbar-expand-lg navbar-light bg-<?=$colorcito?>">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		  <div class="container-fluid">
 			<a class="navbar-brand" href="#">Inicio</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,9 +23,6 @@
 				</li>
 				<li class="nav-item">
 				  <a class="nav-link" href="mostrarLista.php">Mostrar lista</a>
-				</li>				
-				<li class="nav-item">
-				  <a class="nav-link" href="configurarMenu.php">Configuración menú</a>
 				</li>				
 			  </ul>
 			  <form action="buscarCedula.php" method="Post" class="d-flex">
