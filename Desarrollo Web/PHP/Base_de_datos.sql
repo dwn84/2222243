@@ -10,8 +10,8 @@ CREATE TABLE estudiantes(
   password varchar(32)
 ) ;
 
-INSERT INTO estudiantes (cedula, nombre, apellido, fechaNac, telefono) VALUES
-('55555', 'Eddie', 'Smith', '1991-06-01', '3012225555',md5(123456)),
-('88888', 'Adrian', 'Smith', '1978-01-01', '7854',md5(asdf)),
-('9999', 'Bruce', 'Dickinson', '1980-06-01', '999999',md5(jkñl)),
-('99999', 'Esperanza', 'Gomez', '1984-06-01', '301444444',md5(123));
+INSERT INTO estudiantes (cedula, nombre, apellido, fechaNac, telefono, password) VALUES
+('55555', 'Eddie', 'Smith', '1991-06-01', '3012225555',md5('123456')),
+('88888', 'Adrian', 'Smith', '1978-01-01', '7854',md5('asdf')),
+('9999', 'Bruce', 'Dickinson', '1980-06-01', '999999',md5('jkñl')),
+('99999', 'Esperanza', 'Gomez', '1984-06-01', '301444444',md5('123'));
