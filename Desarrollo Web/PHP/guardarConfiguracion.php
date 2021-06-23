@@ -10,5 +10,6 @@
         <div class='alert alert-success' role='alert'>
             Configuración registrada
         </div>
-    ";	
+    ";
+		
 ?>

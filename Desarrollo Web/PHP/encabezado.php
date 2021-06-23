@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,9 +11,15 @@
 </head>
 <body>
 	<div class="container">
+	
+	<?php 
+		session_start();
+		if(isset($_SESSION['usuario'])){
+	?>
+	
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		  <div class="container-fluid">
-			<a class="navbar-brand" href="#">Inicio</a>
+			<a class="navbar-brand" href="#"><?=$_SESSION['usuario']?></a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			  <span class="navbar-toggler-icon"></span>
 			</button>
@@ -24,6 +31,9 @@
 				<li class="nav-item">
 				  <a class="nav-link" href="mostrarLista.php">Mostrar lista</a>
 				</li>				
+				<li class="nav-item">
+				  <a class="nav-link" href="cerrarSesion.php">Cerrar sesión</a>
+				</li>				
 			  </ul>
 			  <form action="buscarCedula.php" method="Post" class="d-flex">
 				<input class="form-control me-2" name="txtCedula" type="search" placeholder="Buscar por cédula" aria-label="Buscar">
@@ -32,3 +42,16 @@
 			</div>
 		  </div>
 		</nav>
+		
+<?php 
+	}else{
+		echo "
+		<div class='alert alert-danger' role='alert' style='margin-top:55px;'>
+            Acceso denegado. 
+			Debe <a href='index.php'>iniciar sesión</a>
+        </div>"
+	
+		;
+		exit;
+	}
+?>	

@@ -5,11 +5,23 @@ $mensaje = null;
         require_once "configuracionDB.php";
 	    $myDB = new mysqli($servidor, $usuario, $contra, $baseDatos) or die("Error en la conexión de base de datos, contacte al administrador");
         $contraEncriptada = md5($_REQUEST['txtPassword']);
-        $sql = "select * from estudiantes where cedula ='$_REQUEST[txtCedula]' and password = '$contraEncriptada'";
-        $datos = $myDB->query($sql) or die("Error en el sistema...");
-		if($fila =$datos->fetch_array()){
-            //redirreción - cargar otra página
-            header('Location: /mostrarLista.php');
+        $sql = "select * from estudiantes 
+				where cedula = ? 
+				and password = ?";		
+		//evitar inyección SQL
+		$datos = $myDB->prepare($sql);
+		//https://www.php.net/manual/es/mysqli-stmt.bind-param.php
+		$datos->bind_param('ss',$_REQUEST['txtCedula'],$contraEncriptada);
+		//Ya no se ejecuta directamente la consulta
+        //$datos = $myDB->query($sql) or die("Error en el sistema...");
+		$datos->execute();
+		$datos = $datos->get_result();
+		if($fila =$datos->fetch_assoc()){
+            //acceder al archivo de sesion del servidor
+			session_start();
+			$_SESSION['usuario'] = $fila['nombre'];			
+			//redirreción - cargar otra página
+            header('Location: /php/mostrarLista.php');
         }else{
             $mensaje = "
             <div class='alert alert-danger' role='alert'>
