@@ -1,0 +1,41 @@
+<!--
+Calcular el promedio de tres notas de un estudiante
+-->
+<html>
+	<body>
+		<form>
+
+			<label> Nota 1</label>
+			<input type="text" name="txtN1" id="txtN1">
+			<br>
+			<label> Nota 2</label>
+			<input type="text" name="txtN2" id="txtN2">
+			<br>
+			<label> Nota 3</label>
+			<input type="text" name="txtN3" id="txtN3">
+			<br>
+			<input onclick="calcular()" type="button" 
+				   value="Calcular" name="btnCalcular" id="btnCalcular">
+
+		</form>
+		
+		<!--código de JavaScript-->
+		<script>
+			function calcular(){
+				var n1,n2,n3,suma,promedio
+				n1 = document.getElementById('txtN1').value
+				console.log('Valor de nota 1: ',n1)
+				n2 = document.getElementById('txtN2').value
+				console.log('Valor de nota 2: ',n2)
+				n3 = document.getElementById('txtN3').value
+				console.log('Valor de nota 3: ',n3)
+				suma= parseFloat(n1) + parseFloat(n2) + parseFloat(n3)
+				console.log('Suma: ',suma)
+				promedio = (suma) / 3				
+				console.log('El promedio es:',promedio)
+			}	
+		
+		</script>
+		
+	</body>
+</html>
